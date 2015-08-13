@@ -17,6 +17,7 @@ public class WeatherData {
 
 
 	public String getCityName() {
+		System.out.println("kk");
 		return cityName;
 	}
 
