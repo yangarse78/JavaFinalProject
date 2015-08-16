@@ -8,16 +8,20 @@ public class WeatherData {
 	private int maxTemp;
 	private int minTemp;
 	private String icon;
+	private long humidity;
+	private String humidityStr;
 	
 	public WeatherData(){}
 	
-	public WeatherData(String cityName, double temp, double maxTemp, double minTemp, String icon) {
+	public WeatherData(String cityName, double temp, double maxTemp, double minTemp, String icon, long humidity) {
 		this.cityName = cityName;
 		this.temp = (int)temp;
 		this.tempStr = String.valueOf((int)temp);
 		this.maxTemp = (int)maxTemp;
 		this.minTemp = (int)minTemp;
 		this.icon = icon;
+		this.humidity = humidity;
+		this.humidityStr = String.valueOf((int)humidity);
 	}
 
 
@@ -28,6 +32,19 @@ public class WeatherData {
 
 
 	
+	public long getHumidity() {
+		return humidity;
+	}
+
+	public String getHumidityStr() {
+		return humidityStr;
+	}
+
+	public void setHumidity(long humidity) {
+		this.humidity = humidity;
+		this.humidityStr = String.valueOf((int)humidity);
+	}
+
 	public String getIcon() {
 		return icon;
 	}

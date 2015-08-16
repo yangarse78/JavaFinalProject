@@ -49,15 +49,17 @@ public class OpenWeatherMap implements IWeatherDataService  {
             System.out.println(jsonResult);
             System.out.println(jsonResult.get("weather"));
 
+            String cityName = (String)jsonResult.get("name");
             JSONObject main = (JSONObject) jsonResult.get("main");
             double temp = (double) main.get("temp");
             double maxTemp = (double) main.get("temp_max");
             double minTemp = (double) main.get("temp_min"); 
+            long humidity = (long)main.get("humidity");
             JSONArray weatherArr = (JSONArray) jsonResult.get("weather");
             JSONObject weatherCondition = (JSONObject) weatherArr.get(0);
             
             String icon = (String) weatherCondition.get("icon");
-            WeatherData weatherData = new WeatherData(city, temp-kelvinDef, maxTemp-kelvinDef, minTemp-kelvinDef, icon + ".png");
+            WeatherData weatherData = new WeatherData(cityName, temp-kelvinDef, maxTemp-kelvinDef, minTemp-kelvinDef, icon + ".png", humidity);
             
             
             return weatherData;
