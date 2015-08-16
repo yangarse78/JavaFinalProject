@@ -24,8 +24,8 @@ public class OpenWeatherMap implements IWeatherDataService  {
 		HttpClient client = HttpClientBuilder.create().build();
 		
 		String city = location.getCityName();
-        HttpGet request = new HttpGet(OPEN_WEATHER_MAP_URL + "?q=" + city);
         try {
+        	HttpGet request = new HttpGet(OPEN_WEATHER_MAP_URL + "?q=" + city);
             HttpResponse response = client.execute(request);
             System.out.println(response.getStatusLine());
 
@@ -65,7 +65,7 @@ public class OpenWeatherMap implements IWeatherDataService  {
             return weatherData;
             
         } catch (Exception e) {
-           throw new WeatherDataServiceException("OpenWeatherMap: Failed to get weather data from open weather map service", e);
+           throw new WeatherDataServiceException(e);
 
         }
 	}

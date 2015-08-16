@@ -27,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -135,11 +136,13 @@ public class WeatherGUI {
 						
 						tempLabel.setText(weatherData.getTempStr());
 						tempLabel.setFont(new Font("Arial", 1, 122));
+						tempLabel.setForeground(Color.BLUE);
 						panelLeft.add(tempLabel, BorderLayout.WEST);
 						celsiusLabel = new JLabel();
 						celsiusLabel.setFont(celsiusLabel.getFont().deriveFont(102f));
 						char c = '\u2103';
 						celsiusLabel.setText(c+"");
+						celsiusLabel.setForeground(Color.BLUE);
 						panelLeft.add(celsiusLabel, BorderLayout.EAST);
 						
 						URL url = new URL("http://openweathermap.org/img/w/" + weatherData.getIcon());
@@ -151,13 +154,17 @@ public class WeatherGUI {
 						humidityLabel.setFont(basicFont);
 						panelCenter.add(humidityLabel);
 						minMaxTempLabel = new JLabel();
-						minMaxTempLabel.setText("Min " + weatherData.getMinTemp() + c + "" + " Max " + weatherData.getMaxTemp() + c + "");
+						minMaxTempLabel.setText("Min " + weatherData.getMinTemp() + c + "" + "     Max " + weatherData.getMaxTemp() + c + "");
 						minMaxTempLabel.setFont(celsiusLabel.getFont().deriveFont(18f));
 						panelCenter.add(minMaxTempLabel);
 						
 						
 					}catch(WeatherDataServiceException e){
-						System.out.println("Error in getting weather for " + city + "in WeatherGUI button listener");
+						String errMsg = e.getMessage();
+						if( errMsg == null || errMsg.equals("")){
+							errMsg = "Error in getting weather for " + city + "in WeatherGUI button listener.";
+						}
+						JOptionPane.showMessageDialog(frame, errMsg);
 					} catch (MalformedURLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
