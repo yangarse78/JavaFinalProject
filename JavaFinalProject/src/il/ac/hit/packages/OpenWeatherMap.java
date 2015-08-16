@@ -6,6 +6,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -14,8 +15,8 @@ public class OpenWeatherMap implements IWeatherDataService  {
 
 	
 	
-	String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather";
-	
+	private final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather";
+	private final double kelvinDef =  273.15;
 	
 	
 	@Override
@@ -52,7 +53,11 @@ public class OpenWeatherMap implements IWeatherDataService  {
             double temp = (double) main.get("temp");
             double maxTemp = (double) main.get("temp_max");
             double minTemp = (double) main.get("temp_min"); 
-            WeatherData weatherData = new WeatherData(city, temp, maxTemp, minTemp);
+            JSONArray weatherArr = (JSONArray) jsonResult.get("weather");
+            JSONObject weatherCondition = (JSONObject) weatherArr.get(0);
+            
+            String icon = (String) weatherCondition.get("icon");
+            WeatherData weatherData = new WeatherData(city, temp-kelvinDef, maxTemp-kelvinDef, minTemp-kelvinDef, icon + ".png");
             
             
             return weatherData;

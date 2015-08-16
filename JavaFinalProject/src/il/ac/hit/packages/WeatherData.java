@@ -3,16 +3,21 @@ package il.ac.hit.packages;
 public class WeatherData {
 
 	private String cityName;
-	private double temp;
-	private double maxTemp;
-	private double minTemp;
+	private int temp;
+	private String tempStr;
+	private int maxTemp;
+	private int minTemp;
+	private String icon;
 	
+	public WeatherData(){}
 	
-	public WeatherData(String cityName, double temp, double maxTemp, double minTemp) {
+	public WeatherData(String cityName, double temp, double maxTemp, double minTemp, String icon) {
 		this.cityName = cityName;
-		this.temp = temp;
-		this.maxTemp = maxTemp;
-		this.minTemp = minTemp;
+		this.temp = (int)temp;
+		this.tempStr = String.valueOf((int)temp);
+		this.maxTemp = (int)maxTemp;
+		this.minTemp = (int)minTemp;
+		this.icon = icon;
 	}
 
 
@@ -22,37 +27,48 @@ public class WeatherData {
 	}
 
 
+	
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
 	}
 
 
-	public double getTemp() {
+	public int getTemp() {
 		return temp;
 	}
 
+	public String getTempStr() {
+		return tempStr;
+	}
 
 	public void setTemp(double temp) {
-		this.temp = temp;
+		this.temp = (int)temp;
+		this.tempStr = String.valueOf((int)temp);
 	}
 
 
-	public double getMaxTemp() {
+	public int getMaxTemp() {
 		return maxTemp;
 	}
 
 
 	public void setMaxTemp(double maxTemp) {
-		this.maxTemp = maxTemp;
+		this.maxTemp = (int)maxTemp;
 	}
 
 
-	public double getMinTemp() {
+	public int getMinTemp() {
 		return minTemp;
 	}
 
 
 	public void setMinTemp(double minTemp) {
-		this.minTemp = minTemp;
+		this.minTemp = (int)minTemp;
 	}
 }
