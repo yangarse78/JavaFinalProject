@@ -1,5 +1,7 @@
 package il.ac.hit.packages;
 
+
+
 public interface IWeatherDataService {
 
 

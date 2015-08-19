@@ -10,10 +10,12 @@ public class WeatherData {
 	private String icon;
 	private long humidity;
 	private String humidityStr;
+	private int windSpeed;
+	private String weatherDescription;
 	
 	public WeatherData(){}
 	
-	public WeatherData(String cityName, double temp, double maxTemp, double minTemp, String icon, long humidity) {
+	public WeatherData(String cityName, double temp, double maxTemp, double minTemp, String icon, long humidity, int windSpeed, String weatherDescription) {
 		this.cityName = cityName;
 		this.temp = (int)temp;
 		this.tempStr = String.valueOf((int)temp);
@@ -22,15 +24,31 @@ public class WeatherData {
 		this.icon = icon;
 		this.humidity = humidity;
 		this.humidityStr = String.valueOf((int)humidity);
+		this.windSpeed = windSpeed;
+		this.weatherDescription = weatherDescription;
 	}
 
+
+	
+	public String getWeatherDescription() {
+		return weatherDescription;
+	}
+
+	public void setWeatherDescription(String weatherDescription) {
+		this.weatherDescription = weatherDescription;
+	}
+
+	public int getWindSpeed() {
+		return windSpeed;
+	}
+
+	public void setWindSpeed(int windSpeed) {
+		this.windSpeed = windSpeed;
+	}
 
 	public String getCityName() {
-		System.out.println("kk");
 		return cityName;
 	}
-
-
 	
 	public long getHumidity() {
 		return humidity;

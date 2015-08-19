@@ -16,7 +16,8 @@ public class OpenWeatherMap implements IWeatherDataService  {
 	
 	
 	private final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather";
-	private final double kelvinDef =  273.15;
+	private final double KELVIN_DEF =  273.15;
+	private final String ICON_FILE_EXTENTION = ".png";
 	
 	
 	@Override
@@ -27,7 +28,6 @@ public class OpenWeatherMap implements IWeatherDataService  {
         try {
         	HttpGet request = new HttpGet(OPEN_WEATHER_MAP_URL + "?q=" + city);
             HttpResponse response = client.execute(request);
-            System.out.println(response.getStatusLine());
 
             InputStreamReader in = new InputStreamReader(response.getEntity().getContent());
             BufferedReader rd = new BufferedReader(in);
@@ -47,7 +47,6 @@ public class OpenWeatherMap implements IWeatherDataService  {
             	throw new WeatherDataServiceException(errorMsg);
             }
             System.out.println(jsonResult);
-            System.out.println(jsonResult.get("weather"));
 
             String cityName = (String)jsonResult.get("name");
             JSONObject main = (JSONObject) jsonResult.get("main");
@@ -57,9 +56,11 @@ public class OpenWeatherMap implements IWeatherDataService  {
             long humidity = (long)main.get("humidity");
             JSONArray weatherArr = (JSONArray) jsonResult.get("weather");
             JSONObject weatherCondition = (JSONObject) weatherArr.get(0);
-            
+            JSONObject wind =  (JSONObject) jsonResult.get("wind");
+            double windSpeed = (double)wind.get("speed");
             String icon = (String) weatherCondition.get("icon");
-            WeatherData weatherData = new WeatherData(cityName, temp-kelvinDef, maxTemp-kelvinDef, minTemp-kelvinDef, icon + ".png", humidity);
+            String weatherDescription =  (String) weatherCondition.get("description");
+            WeatherData weatherData = new WeatherData(cityName, temp-KELVIN_DEF, maxTemp-KELVIN_DEF, minTemp-KELVIN_DEF, icon + ICON_FILE_EXTENTION, humidity, meterSecToKmHour(windSpeed), weatherDescription);
             
             
             return weatherData;
@@ -68,6 +69,10 @@ public class OpenWeatherMap implements IWeatherDataService  {
            throw new WeatherDataServiceException(e);
 
         }
+	}
+	
+	private int meterSecToKmHour(double windSpeed){
+		return (int)((windSpeed*18)/5);
 	}
 
 }
