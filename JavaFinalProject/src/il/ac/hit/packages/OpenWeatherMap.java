@@ -14,7 +14,6 @@ import org.json.simple.parser.JSONParser;
 public class OpenWeatherMap implements IWeatherDataService  {
 
 	
-	
 	private final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather";
 	private final double KELVIN_DEF =  273.15;
 	private final String ICON_FILE_EXTENTION = ".png";
@@ -46,7 +45,8 @@ public class OpenWeatherMap implements IWeatherDataService  {
             if(errorMsg != null){
             	throw new WeatherDataServiceException(errorMsg);
             }
-            System.out.println(jsonResult);
+           
+            WeatherGUI.log.info(jsonResult);
 
             String cityName = (String)jsonResult.get("name");
             JSONObject main = (JSONObject) jsonResult.get("main");
@@ -54,20 +54,19 @@ public class OpenWeatherMap implements IWeatherDataService  {
             double maxTemp = (double) main.get("temp_max");
             double minTemp = (double) main.get("temp_min"); 
             long humidity = (long)main.get("humidity");
+            String pressure = String.valueOf((long)main.get("pressure"));
             JSONArray weatherArr = (JSONArray) jsonResult.get("weather");
             JSONObject weatherCondition = (JSONObject) weatherArr.get(0);
             JSONObject wind =  (JSONObject) jsonResult.get("wind");
             double windSpeed = (double)wind.get("speed");
             String icon = (String) weatherCondition.get("icon");
             String weatherDescription =  (String) weatherCondition.get("description");
-            WeatherData weatherData = new WeatherData(cityName, temp-KELVIN_DEF, maxTemp-KELVIN_DEF, minTemp-KELVIN_DEF, icon + ICON_FILE_EXTENTION, humidity, meterSecToKmHour(windSpeed), weatherDescription);
-            
-            
+            WeatherData weatherData = new WeatherData(cityName, temp-KELVIN_DEF, maxTemp-KELVIN_DEF, minTemp-KELVIN_DEF, icon + ICON_FILE_EXTENTION, 
+            																						humidity, meterSecToKmHour(windSpeed), weatherDescription, pressure);
             return weatherData;
             
         } catch (Exception e) {
            throw new WeatherDataServiceException(e);
-
         }
 	}
 	

@@ -40,6 +40,8 @@ public class WeatherGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final String PERSENT_SIGN = "%";
 	private final String SPEED_MEASUREMENT = " km/h";
+	private final String PREASURE_MEASUREMENT =" hPa";
+	
 	private WeatherData weatherData = new WeatherData();
 	public static IWeatherDataService weatherService = null;
 	
@@ -48,9 +50,7 @@ public class WeatherGUI extends JFrame {
 	private Font basicFont;
 	private JFrame frame = null;
 	private JButton button;
-
 	private JTextField textField;
-	
 	private JLabel jLabel1;
 	private JLabel tempLabel;
 	private JLabel locationLabel;
@@ -60,15 +60,9 @@ public class WeatherGUI extends JFrame {
 	private JLabel minMaxTempLabel;	
 	private JLabel dateLabel;
 	private JLabel windLabel;
-    private JLabel jLabel9;
+    private JLabel pressureLabel;
 	
 	public WeatherGUI(){
-		
-		
-		log.info("This is an info message");
-		log.error("This is an exception", new Exception());
-		
-		
 		
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -90,7 +84,7 @@ public class WeatherGUI extends JFrame {
 		minMaxTempLabel = new JLabel();
 		dateLabel = new JLabel();
 		windLabel = new JLabel();
-		jLabel9 = new JLabel("jLabel9");
+		pressureLabel = new JLabel();
 		
 		
 		
@@ -122,7 +116,7 @@ public class WeatherGUI extends JFrame {
                             .addComponent(humidityLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(minMaxTempLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(windLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(pressureLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(Alignment.LEADING)
@@ -150,13 +144,11 @@ public class WeatherGUI extends JFrame {
                         .addPreferredGap(ComponentPlacement.RELATED)
                         .addComponent(windLabel, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(jLabel9, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(pressureLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         pack();
-		
-		
 		
 		button.setEnabled(false);
 		textField.addKeyListener(new KeyAdapter() {
@@ -191,7 +183,6 @@ public class WeatherGUI extends JFrame {
 						dateLabel.setFont(new Font("Script MT Bold", 1, 20));
 						dateLabel.setForeground(new Color(255, 102, 102));
 						
-						
 						tempLabel.setText(weatherData.getTempStr());
 						tempLabel.setFont(new Font("Arial", 1, 122));
 						tempLabel.setForeground(Color.BLUE);
@@ -201,7 +192,6 @@ public class WeatherGUI extends JFrame {
 						celsiusLabel.setText(c+"");
 						celsiusLabel.setForeground(Color.BLUE);
 						
-						
 						URL url = new URL("http://openweathermap.org/img/w/" + weatherData.getIcon());
 						BufferedImage wPic = ImageIO.read(url);
 						
@@ -210,51 +200,48 @@ public class WeatherGUI extends JFrame {
 						iconLabel.setFont(basicFont);
 						iconLabel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
 						
-						
-						
 						humidityLabel.setText("Humidity: " + weatherData.getHumidityStr() + PERSENT_SIGN);
 						humidityLabel.setFont(basicFont);
 						humidityLabel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
-						
-						
+
 						minMaxTempLabel.setText("Min " + weatherData.getMinTemp() + c + "" + "     Max " + weatherData.getMaxTemp() + c + "");
 						minMaxTempLabel.setFont(celsiusLabel.getFont().deriveFont(18f));
 						minMaxTempLabel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
-						
-						
-
 						
 						windLabel.setText("Wind: " + weatherData.getWindSpeed() + SPEED_MEASUREMENT);
 						windLabel.setFont(basicFont);
 						windLabel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
 				        
-				        jLabel9.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
-				        
-						
+						pressureLabel.setText("Pressure: " + weatherData.getPressure() + PREASURE_MEASUREMENT);
+						pressureLabel.setFont(basicFont);
+						pressureLabel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
 						
 					}catch(WeatherDataServiceException e){
+						log.error(e.getStackTrace());
 						String errMsg = e.getMessage();
 						if( errMsg == null || errMsg.equals("")){
-							errMsg = "Error in getting weather for " + city + "in WeatherGUI button listener.";
+							errMsg = "Error in getting weather for " + city + ".";
 						}
 						JOptionPane.showMessageDialog(frame, errMsg);
 					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						log.error(e.getStackTrace());
+						String errMsg = e.getMessage();
+						if( errMsg == null || errMsg.equals("")){
+							errMsg = "Error in getting weather for " + city + ".";
+						}
+						JOptionPane.showMessageDialog(frame, errMsg);						
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						log.error(e.getStackTrace());
+						String errMsg = e.getMessage();
+						if( errMsg == null || errMsg.equals("")){
+							errMsg = "Error in getting weather for " + city + ".";
+						}
+						JOptionPane.showMessageDialog(frame, errMsg);
 					}
 				}
 		});
-		
-		
-	
 	}
 
-
-	
-	
 	private String getCurrentDateStr(){
 		SimpleDateFormat sdfDate = new SimpleDateFormat("MMMM  HH:mm a");
 	    Date now = new Date();
@@ -272,13 +259,13 @@ public class WeatherGUI extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WeatherGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        	log.error(WeatherGUI.class.getName(), ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WeatherGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        	log.error(WeatherGUI.class.getName(), ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WeatherGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        	log.error(WeatherGUI.class.getName(), ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WeatherGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        	log.error(WeatherGUI.class.getName(), ex);
         }
 
         /* Create and display the form */
