@@ -45,7 +45,7 @@ public class WeatherGUI extends JFrame {
 	private WeatherData weatherData = new WeatherData();
 	public static IWeatherDataService weatherService = null;
 	
-	static Logger log = Logger.getLogger(WeatherGUI.class);
+	public static Logger log = Logger.getLogger(WeatherGUI.class);
 	
 	private Font basicFont;
 	private JFrame frame = null;
@@ -176,8 +176,9 @@ public class WeatherGUI extends JFrame {
 					
 					basicFont = new Font("Arial", 0, 16);
 					String city = textField.getText();
-					Location location = new Location(city);
 					try{
+						city = validateCityName(city);
+						Location location = new Location(city);
 						weatherService = WeatherDataServiceFactory.getWeatherDataService(WeatherDataServiceFactory.WeatherDataServiceType.OPEN_WEATHER_MAP);
 						setWeatherData(weatherService.getWeatherData(location));
 						
@@ -248,6 +249,20 @@ public class WeatherGUI extends JFrame {
 		});
 	}
 
+	private String validateCityName(String city) throws WeatherDataServiceException{
+		if(isContainNum(city)){
+			String errMsg = "City name contains numbers.";
+			throw new WeatherDataServiceException(errMsg);
+		}
+		if(city.indexOf(" ") != -1){
+			city = city.replace(" ", "-");
+		}
+		return city;
+	}
+	
+	private boolean isContainNum(String str){
+		return (str.matches(".*\\d.*"));
+	}
 	private String getCurrentDateStr(){
 		SimpleDateFormat sdfDate = new SimpleDateFormat("MMMM  HH:mm a");
 	    Date now = new Date();

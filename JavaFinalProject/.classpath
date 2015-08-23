@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="C:/Users/yan/Documents/GitHub/JavaFinalProject/JavaFinalProject/lib/apache-log4j-2.3-bin/log4j-nosql-2.3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/yan/Documents/GitHub/JavaFinalProject/JavaFinalProject/lib/apache-log4j-2.3-bin/log4j-taglib-2.3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/yan/Documents/GitHub/JavaFinalProject/JavaFinalProject/lib/apache-log4j-2.3-bin/log4j-web-2.3.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
