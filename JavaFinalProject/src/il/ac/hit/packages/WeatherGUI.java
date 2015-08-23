@@ -154,11 +154,17 @@ public class WeatherGUI extends JFrame {
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				if(textField.getText().equals("")){
-					button.setEnabled(false);
-				}else{
-					button.setEnabled(true);
-				}
+				 char ch = arg0.getKeyChar();
+				 if(Character.isDigit(ch)){
+					 textField.setText(""+textField.getText().substring(0, textField.getText ().length() - 1));
+					 JOptionPane.showMessageDialog(null, "Only letters are accepted !");
+				 }else{
+					if(textField.getText().equals("")){
+						button.setEnabled(false);
+					}else{
+						button.setEnabled(true);
+					}
+				 }
 			}
 		});
 		

@@ -13,11 +13,22 @@ import org.json.simple.parser.JSONParser;
 
 public class OpenWeatherMap implements IWeatherDataService  {
 
-	
+	private static OpenWeatherMap instance = null;
 	private final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather";
 	private final double KELVIN_DEF =  273.15;
 	private final String ICON_FILE_EXTENTION = ".png";
 	
+	
+	public static OpenWeatherMap getInstance(){
+		if(instance == null){
+	        synchronized (OpenWeatherMap.class) {
+	            if(instance == null){
+	                instance = new OpenWeatherMap();
+	            }
+	        }
+	    }
+        return instance;
+    }
 	
 	@Override
 	public WeatherData getWeatherData(Location location) throws WeatherDataServiceException{

@@ -12,7 +12,7 @@ public class WeatherDataServiceFactory {
 		IWeatherDataService service = null;
 		switch (serviceType){
 			case OPEN_WEATHER_MAP:
-		        service = new OpenWeatherMap();
+		        service = OpenWeatherMap.getInstance();
 		        break;
 			default:
 			    throw new WeatherDataServiceException("There is no service");
