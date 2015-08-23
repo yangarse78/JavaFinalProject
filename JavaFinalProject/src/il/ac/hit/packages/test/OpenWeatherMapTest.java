@@ -1,6 +1,6 @@
 package il.ac.hit.packages.test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,14 +17,6 @@ import il.ac.hit.packages.WeatherGUI;
 public class OpenWeatherMapTest {
 
 	public OpenWeatherMap owm;
-	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -38,10 +30,9 @@ public class OpenWeatherMapTest {
 
 	@Test
 	public final void testGetWeatherData() {
-		Location loc = new Location("London");
 		WeatherData wd = null;
 		try {
-			wd = owm.getWeatherData(loc);
+			wd = owm.getWeatherData(new Location("London"));
 		} catch (WeatherDataServiceException e) {
 			WeatherGUI.log.error("JUnit: Error in OpenWeatherMapTest.testGetWeatherData");
 		}
@@ -55,8 +46,7 @@ public class OpenWeatherMapTest {
 		try {
 			wd = owm.getWeatherData(loc);
 		} catch (WeatherDataServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			WeatherGUI.log.error("JUnit: Error in OpenWeatherMapTest.testGetWeatherDataDigitError");
 		}
 		assertNotNull(wd);
 	}
