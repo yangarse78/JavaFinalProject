@@ -61,15 +61,21 @@ public class OpenWeatherMap implements IWeatherDataService  {
 
             String cityName = (String)jsonResult.get("name");
             JSONObject main = (JSONObject) jsonResult.get("main");
-            double temp = (double) main.get("temp");
-            double maxTemp = (double) main.get("temp_max");
-            double minTemp = (double) main.get("temp_min"); 
-            long humidity = (long)main.get("humidity");
-            String pressure = String.valueOf((long)main.get("pressure"));
+            Double temp = (Double) main.get("temp");
+            Double maxTemp = (Double) main.get("temp_max");
+            Double minTemp = (Double) main.get("temp_min"); 
+            Long humidity = (Long)main.get("humidity");
+            String pressure = String.valueOf((Long)main.get("pressure"));
             JSONArray weatherArr = (JSONArray) jsonResult.get("weather");
             JSONObject weatherCondition = (JSONObject) weatherArr.get(0);
             JSONObject wind =  (JSONObject) jsonResult.get("wind");
-            double windSpeed = (double)wind.get("speed");
+            Double windSpeed = 0.0;
+            if((Object)wind.get("speed") instanceof Long){
+            	windSpeed = ((Long)wind.get("speed")).doubleValue();
+            }else{
+            	windSpeed = (Double)wind.get("speed");
+            }
+            
             String icon = (String) weatherCondition.get("icon");
             String weatherDescription =  (String) weatherCondition.get("description");
             WeatherData weatherData = new WeatherData(cityName, temp-KELVIN_DEF, maxTemp-KELVIN_DEF, minTemp-KELVIN_DEF, icon + ICON_FILE_EXTENTION, 

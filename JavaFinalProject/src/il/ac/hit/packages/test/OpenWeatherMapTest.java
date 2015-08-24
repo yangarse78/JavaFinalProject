@@ -41,14 +41,14 @@ public class OpenWeatherMapTest {
 	
 	@Test
 	public final void testGetWeatherDataCheckCity() {
-		Location loc = new Location("Bat-Yam");
+		Location loc = new Location("London");
 		WeatherData wd = null;
 		try {
 			wd = owm.getWeatherData(loc);
 		} catch (WeatherDataServiceException e) {
 			WeatherGUI.log.error("JUnit: Error in OpenWeatherMapTest.testGetWeatherDataCheckCity");
 		}
-		assertEquals("Bat Yam", wd.getCityName());
+		assertEquals("London", wd.getCityName());
 	}
 
 }
