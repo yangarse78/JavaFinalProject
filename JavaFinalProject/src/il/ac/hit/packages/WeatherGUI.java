@@ -43,7 +43,6 @@ public class WeatherGUI extends JFrame {
 	private final String PREASURE_MEASUREMENT =" hPa";
 	
 	private WeatherData weatherData = new WeatherData();
-	public static IWeatherDataService weatherService = null;
 	
 	public static Logger log = Logger.getLogger(WeatherGUI.class);
 	
@@ -179,8 +178,7 @@ public class WeatherGUI extends JFrame {
 					try{
 						city = validateCityName(city);
 						Location location = new Location(city);
-						weatherService = WeatherDataServiceFactory.getWeatherDataService(WeatherDataServiceFactory.WeatherDataServiceType.OPEN_WEATHER_MAP);
-						setWeatherData(weatherService.getWeatherData(location));
+						setWeatherData(WeatherServiceController.getWeatherData(location));
 						
 						locationLabel.setText(weatherData.getCityName());
 						locationLabel.setFont(new Font("Script MT Bold", 1, 20));

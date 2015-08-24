@@ -32,7 +32,7 @@ public class OpenWeatherMapTest {
 	public final void testGetWeatherData() {
 		WeatherData wd = null;
 		try {
-			wd = owm.getWeatherData(new Location("London"));
+			wd = owm.getWeatherData(new Location("Tel-Aviv"));
 		} catch (WeatherDataServiceException e) {
 			WeatherGUI.log.error("JUnit: Error in OpenWeatherMapTest.testGetWeatherData");
 		}
@@ -40,15 +40,15 @@ public class OpenWeatherMapTest {
 	}
 	
 	@Test
-	public final void testGetWeatherDataDigitError() {
-		Location loc = new Location("sds222");
+	public final void testGetWeatherDataCheckCity() {
+		Location loc = new Location("Bat-Yam");
 		WeatherData wd = null;
 		try {
 			wd = owm.getWeatherData(loc);
 		} catch (WeatherDataServiceException e) {
-			WeatherGUI.log.error("JUnit: Error in OpenWeatherMapTest.testGetWeatherDataDigitError");
+			WeatherGUI.log.error("JUnit: Error in OpenWeatherMapTest.testGetWeatherDataCheckCity");
 		}
-		assertNotNull(wd);
+		assertEquals("Bat Yam", wd.getCityName());
 	}
 
 }
